@@ -107,6 +107,7 @@ class UserDetail extends \yii\db\ActiveRecord
 
     const HOUSE_RENTED = 1;
     const HOUSE_OWNED = 2;
+     
     /**
      * @inheritdoc
      */
@@ -291,13 +292,13 @@ class UserDetail extends \yii\db\ActiveRecord
     public function getComplectionBadges()
     {
 
-        if ($this->cast == self::VERY_FAIR) {
+        if ($this->complexion == self::VERY_FAIR) {
             return '<span class="badge badge-success">Very Fair</span>';
-        } elseif ($this->cast == self::FAIR) {
+        } elseif ($this->complexion == self::FAIR) {
             return '<span class="badge badge-default">Fair</span>';
-        } elseif ($this->cast == self::WITISH) {
+        } elseif ($this->complexion == self::WITISH) {
             return '<span class="badge badge-default">Witish</span>';
-        } elseif ($this->cast == self::DARK) {
+        } elseif ($this->complexion == self::DARK) {
             return '<span class="badge badge-default">Dark</span>';
         }
     }
@@ -316,9 +317,9 @@ class UserDetail extends \yii\db\ActiveRecord
     public function getHouseBadges()
     {
 
-        if ($this->cast == self::HOUSE_RENTED) {
+        if ($this->house_type == self::HOUSE_RENTED) {
             return '<span class="badge badge-success">Rented</span>';
-        } elseif ($this->cast == self::HOUSE_OWNED) {
+        } elseif ($this->house_type == self::HOUSE_OWNED) {
             return '<span class="badge badge-default">Owned</span>';
         }
     }

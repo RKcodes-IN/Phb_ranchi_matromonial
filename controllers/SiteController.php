@@ -164,7 +164,7 @@ class SiteController extends Controller
 	{
 		if (!User::isAdmin()) {
 
-			return $this->redirect('/app/site/login');
+			return $this->redirect('/Phb_ranchi_matromonial/site/login');
 		}
 		if (User::isUser()) {
 		}

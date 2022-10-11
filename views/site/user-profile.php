@@ -60,7 +60,7 @@
                                     <li class="list-group-item mb-2"><b>Height:-</b> <?= $userDetail->height ?></li>
                                     <li class="list-group-item mb-2"><b>Other Qualification:-</b> <?= $userDetail->other_qualification ?></li>
                                     <li class="list-group-item mb-2"><b>Monthly Income:-</b> <?= $userDetail->monthly_income ?></li>
-                                    <li class="list-group-item mb-2"><b>Handicapped:-</b> <?= $userDetail->handicapped ?></li>
+                                    <li class="list-group-item mb-2"><b>Handicapped:-</b> <?php if($userDetail->handicapped == 1){echo 'Yes';}else{echo 'No';}  ?></li>
 
                                 </div>
 
@@ -68,7 +68,7 @@
                                     <li class="list-group-item mb-2"><b>Mrital Status:-</b> <?= $userDetail->getMatrialStatusBadges() ?></li>
                                     <li class="list-group-item mb-2"><b>Cast:-</b> <?= $userDetail->getCastBadges() ?></li>
                                     <li class="list-group-item mb-2"><b>Time Of Birth:-</b> <?= $userDetail->tob ?></li>
-                                    <li class="list-group-item mb-2"><b>Complexion:-</b> <?= $userDetail->complexion ?></li>
+                                    <li class="list-group-item mb-2"><b>Complexion:-</b> <?= $userDetail->getComplectionBadges() ?></li>
                                     <li class="list-group-item mb-2"><b>Physique:-</b> <?= $userDetail->physique ?></li>
                                     <li class="list-group-item mb-2"><b>Prefrence:-</b> <?= $userDetail->prefrence ?></li>
                                     <li class="list-group-item mb-2"><b>Disablity Discription:-</b> <?= $userDetail->disability_description ?></li>
@@ -80,7 +80,8 @@
                                     <li class="list-group-item mb-2"><b>Cast Gotra:-</b> <?= $userDetail->cast_gotra ?></li>
                                     <li class="list-group-item mb-2"><b>Place Of Birth:-</b> <?= $userDetail->place_of_birth ?></li>
                                     <li class="list-group-item mb-2"><b>Qualification:-</b> <?= $userDetail->qualification ?></li>
-                                    <li class="list-group-item mb-2"><b>Number Of Children:-</b> <?= $userDetail->no_children ?? 'NA' ?></li>
+                                    <li class="list-group-item mb-2"><b>Phone Number:-</b> <?= $userDetail->phone_number ?? 'NA' ?></li>
+                                    <li class="list-group-item mb-2"><b>Whats's App Number:-</b> <?= $userDetail->whats_app_number ?? 'NA' ?></li>
 
                                 </div>
                             </div>
