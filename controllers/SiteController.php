@@ -45,6 +45,7 @@ class SiteController extends Controller
 							'user-profile',
 							'edit-profile',
 							'update-pro',
+							'search',
 
 						],
 						'allow' => true,
@@ -64,6 +65,7 @@ class SiteController extends Controller
 							'user-profile',
 							'edit-profile',
 							'update-pro',
+							'search',
 						],
 						'allow' => true,
 						'roles' => [
@@ -164,7 +166,7 @@ class SiteController extends Controller
 	{
 		if (!User::isAdmin()) {
 
-			return $this->redirect('/Phb_ranchi_matromonial/site/login');
+			return $this->redirect('/app/site/login');
 		}
 		if (User::isUser()) {
 		}
@@ -361,6 +363,40 @@ class SiteController extends Controller
 		return $this->render('user-profile', [
 			'user' => $user,
 			'userDetail' => $userDetail
+		]);
+	}
+
+	// Search
+
+	public function actionSearch($cast = '', $age = '')
+	{
+		if (!empty($cast)) {
+			$search = UserDetail::find()->where(['cast' => $cast])->andWhere(['status' => UserDetail::STATUS_ACTIVE])->all();
+		} else if ($age) {
+			$search = [];
+
+			$userDetail = UserDetail::find()->where(['status' => UserDetail::STATUS_ACTIVE])->all();
+			foreach ($userDetail as $ud) {
+				$ageUser = UserDetail::getAge($ud->dob);
+				if ($age == 1) {
+					if ($ageUser >= 20 && $ageUser <= 25) {
+						$search[] = $ud;
+					}
+				} else if ($age == 2) {
+					if ($ageUser >= 26 && $ageUser <= 30) {
+						$search[] = $ud;
+					}
+				} else if ($age == 3) {
+					if ($ageUser >= 30) {
+						$search[] = $ud;
+					}
+				}
+			}
+			// var_dump($search);exit;
+		}
+
+		return $this->render('_search', [
+			'search' => $search,
 		]);
 	}
 }

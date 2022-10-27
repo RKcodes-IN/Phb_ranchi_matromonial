@@ -23,10 +23,10 @@
                             <h3 class="profile-username text-center"><?= $user->first_name ?><?= $user->last_name ?></h3>
 
                         <?php } ?>
-                        <p class="text-muted text-center "> <?= $userDetail->occupication??'' ?></p>
+                        <p class="text-muted text-center "> <?= $userDetail->occupication ?? '' ?></p>
                         <ul class="list-group list-group-unbordered mb-3 text-left">
                             <li class="list-group-item">
-                                <b>Age</b> <a class="float-right badge badge-success"> <?php $age = UserDetail::getAge($userDetail->dob??'');
+                                <b>Age</b> <a class="float-right badge badge-success"> <?php $age = UserDetail::getAge($userDetail->dob ?? '');
                                                                                         echo $age;
                                                                                         ?></a>
                             </li>
@@ -61,7 +61,7 @@
                                     <li class="list-group-item mb-2"><b>Whats App Number:-</b> <?= $userDetail->whats_app_number ?></li>
                                     <li class="list-group-item mb-2"><b>Other Qualification:-</b> <?= $userDetail->other_qualification ?></li>
                                     <li class="list-group-item mb-2"><b>Monthly Income:-</b> <?= $userDetail->monthly_income ?></li>
-                                    <li class="list-group-item mb-2"><b>Handicapped:-</b> <?= $userDetail->handicapped ?></li>
+                                    <li class="list-group-item mb-2"><b>Handicapped:-</b> <?php if($userDetail->handicapped == 1){echo "Yes";}else{echo "No";}  ?></li>
 
                                 </div>
 
@@ -69,7 +69,7 @@
                                     <li class="list-group-item mb-2"><b>Mrital Status:-</b> <?= $userDetail->getMatrialStatusBadges() ?></li>
                                     <li class="list-group-item mb-2"><b>Cast:-</b> <?= $userDetail->getCastBadges() ?></li>
                                     <li class="list-group-item mb-2"><b>Time Of Birth:-</b> <?= $userDetail->tob ?></li>
-                                    <li class="list-group-item mb-2"><b>Complexion:-</b> <?= $userDetail->complexion ?></li>
+                                    <li class="list-group-item mb-2"><b>Complexion:-</b> <?= $userDetail->getComplectionBadges() ?></li>
                                     <li class="list-group-item mb-2"><b>Address:-</b> <?= $userDetail->address ?></li>
                                     <li class="list-group-item mb-2"><b>Physique:-</b> <?= $userDetail->physique ?></li>
                                     <li class="list-group-item mb-2"><b>Prefrence:-</b> <?= $userDetail->prefrence ?></li>
@@ -128,19 +128,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if(!empty($user->sibling)){ foreach ($user->sibling as $sib) {
+                                <?php if (!empty($user->sibling)) {
+                                    foreach ($user->sibling as $sib) {
                                 ?>
 
-                                    <tr>
+                                        <tr>
 
-                                        <td><?= $sib->siblingType->title ?> </td>
-                                        <td><?= $sib->name ?> </td>
-                                        <td><?= $sib->age ?> </td>
-                                        <td><?= $sib->education_qulification ?> </td>
-                                        <td><?= $sib->married ?> </td>
-                                        <td><?= $sib->occupation??'' ?> </td>
-                                    </tr>
-                                <?php }} ?>
+                                            <td><?= $sib->siblingType->title ?> </td>
+                                            <td><?= $sib->name ?> </td>
+                                            <td><?= $sib->age ?> </td>
+                                            <td><?= $sib->education_qulification ?> </td>
+                                            <td><?= $sib->married ?> </td>
+                                            <td><?= $sib->occupation ?? '' ?> </td>
+                                        </tr>
+                                <?php }
+                                } ?>
 
                             </tbody>
                         </table>

@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 
 use app\modules\admin\models\UserDetail;
+use yii\helpers\Url;
 
 $this->title = 'My Yii Application';
 ?>
@@ -50,22 +51,27 @@ $this->title = 'My Yii Application';
 							</header>
 							<div class="filter-content collapse show" id="collapse_1" style="">
 								<div class="card-body">
-									<form class="pb-3">
-										<div class="input-group">
-											<input type="text" class="form-control" placeholder="Search">
-											<div class="input-group-append">
-												<button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
-											</div>
-										</div>
-									</form>
+									
 
 									<ul class="list-menu text-left list-unstyled text-dark  list">
-										<li><a href="#">Hindu </a></li>
-										<li><a href="#">Mangalik </a></li>
-										<li><a href="#">Sikh </a></li>
-										<li><a href="#">Khatri </a></li>
-										<li><a href="#">Arora </a></li>
-										<li><a href="#">Brahaman</a></li>
+										<?php
+										foreach (UserDetail::getCastOption() as $ud) {
+											if ($ud == 'Sikh') {
+												echo "<li><a href='search?cast=1'>" . $ud . "</li>";
+											} elseif ($ud == 'Khatri') {
+												echo "<li><a href='search?cast=2'>" . $ud . "</li>";
+											} else if ($ud == 'Arora') {
+												echo "<li><a href='search?cast=3'>" . $ud . "</li>";
+											} else if ($ud == 'Brahmin') {
+												echo "<li><a href='search?cast=4'>" . $ud . "</li>";
+											} else if ($ud = 'Other') {
+												echo "<li><a href='search?cast=5'>" . $ud . "</li>";
+											}
+										}
+
+
+
+										?>
 									</ul>
 
 								</div> <!-- card-body.// -->
@@ -75,42 +81,15 @@ $this->title = 'My Yii Application';
 							<header class="card-header">
 								<a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
 									<i class="icon-control fa fa-chevron-down"></i>
-									<h6 class="title">City </h6>
+									<h6 class="title">Age </h6>
 								</a>
 							</header>
 							<div class="filter-content collapse show" id="collapse_2" style="">
-								<div class="card-body">
-									<label class="custom-control custom-checkbox">
-										<input type="checkbox" checked="" class="custom-control-input">
-										<div class="custom-control-label">Ranchi
-											<b class="badge badge-pill badge-light float-right">120</b>
-										</div>
-									</label>
-									<label class="custom-control custom-checkbox">
-										<input type="checkbox" checked="" class="custom-control-input">
-										<div class="custom-control-label">Jamshedpur
-											<b class="badge badge-pill badge-light float-right">15</b>
-										</div>
-									</label>
-									<label class="custom-control custom-checkbox">
-										<input type="checkbox" checked="" class="custom-control-input">
-										<div class="custom-control-label">Chandighar
-											<b class="badge badge-pill badge-light float-right">35</b>
-										</div>
-									</label>
-									<label class="custom-control custom-checkbox">
-										<input type="checkbox" checked="" class="custom-control-input">
-										<div class="custom-control-label">Bokaro
-											<b class="badge badge-pill badge-light float-right">89</b>
-										</div>
-									</label>
-									<label class="custom-control custom-checkbox">
-										<input type="checkbox" class="custom-control-input">
-										<div class="custom-control-label">Hazaribhag
-											<b class="badge badge-pill badge-light float-right">30</b>
-										</div>
-									</label>
-								</div> <!-- card-body.// -->
+								<ul class="list-unstyled mt-4">
+									<li class="badge badge-primary "><a href='search?age=1' class="text-white " style="font-size: 18px;">20-25</a></li>
+									<li class="badge badge-success"><a href='search?age=2' class="text-white " style="font-size: 18px;">26-30</a></li>
+									<li class="badge badge-info"><a href='search?age=3' class="text-white " style="font-size: 18px;">30+</a></li>
+								</ul>
 							</div>
 						</article> <!-- filter-group .// -->
 
@@ -125,7 +104,7 @@ $this->title = 'My Yii Application';
 					<div class="row">
 
 						<?php foreach ($users as $user) {
-							
+
 							$userDetail = UserDetail::find()->where(['user_id' => $user->id])->one();
 						?>
 
@@ -154,7 +133,7 @@ $this->title = 'My Yii Application';
 										</div>
 									</figcaption>
 									<div class="card-footer">
-										<a href="<?= \yii\helpers\Url::to(['/site/user-profile','id'=>$user->id]) ?>" class="btn btn-primary btn-ng">View Profile </a>
+										<a href="<?= \yii\helpers\Url::to(['/site/user-profile', 'id' => $user->id]) ?>" class="btn btn-primary btn-ng">View Profile </a>
 									</div>
 								</figure>
 							</div> <!-- col.// -->
