@@ -60,7 +60,11 @@
                                     <li class="list-group-item mb-2"><b>Height:-</b> <?= $userDetail->height ?></li>
                                     <li class="list-group-item mb-2"><b>Other Qualification:-</b> <?= $userDetail->other_qualification ?></li>
                                     <li class="list-group-item mb-2"><b>Monthly Income:-</b> <?= $userDetail->monthly_income ?></li>
-                                    <li class="list-group-item mb-2"><b>Handicapped:-</b> <?php if($userDetail->handicapped == 1){echo 'Yes';}else{echo 'No';}  ?></li>
+                                    <li class="list-group-item mb-2"><b>Handicapped:-</b> <?php if ($userDetail->handicapped == 1) {
+                                                                                                echo 'Yes';
+                                                                                            } else {
+                                                                                                echo 'No';
+                                                                                            }  ?></li>
 
                                 </div>
 
@@ -125,19 +129,27 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if(!empty($user->sibling)){ foreach ($user->sibling as $sib) {
+                                <?php if (!empty($user->sibling)) {
+                                    foreach ($user->sibling as $sib) {
                                 ?>
 
-                                    <tr>
+                                        <tr>
 
-                                        <td><?= $sib->siblingType->title ?> </td>
-                                        <td><?= $sib->name ?> </td>
-                                        <td><?= $sib->age ?> </td>
-                                        <td><?= $sib->education_qulification ?> </td>
-                                        <td><?= $sib->married ?> </td>
-                                        <td><?= $sib->occupation ?> </td>
-                                    </tr>
-                                <?php }} ?>
+                                            <td><?= $sib->siblingType->title ?> </td>
+                                            <td><?= $sib->name ?> </td>
+                                            <td><?= $sib->age ?> </td>
+                                            <td><?= $sib->education_qulification ?> </td>
+                                            <?php if ($sib->married == 0) { ?>
+                                                <td>No </td>
+
+                                            <?php } else { ?>
+                                                <td>Yes </td>
+
+                                            <?php } ?>
+                                            <td><?= $sib->occupation ?> </td>
+                                        </tr>
+                                <?php }
+                                } ?>
 
                             </tbody>
                         </table>

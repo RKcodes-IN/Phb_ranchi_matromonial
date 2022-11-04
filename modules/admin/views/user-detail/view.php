@@ -4,160 +4,180 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\grid\GridView;
 use app\models\User;
+use app\modules\admin\models\base\UserDetail as BaseUserDetail;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\UserDetail */
 
-$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User Details'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-detail-view">
-<div class="card">
-       <div class="card-body">
-    <div class="row">
-        <div class="col-sm-9">
-            <h2><?= Yii::t('app', 'User Detail').' '. Html::encode($this->title) ?></h2>
-        </div>
-        <div class="col-sm-3" style="margin-top: 15px">
-            
-            <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                          <?php  if(\Yii::$app->user->identity->user_role==User::ROLE_ADMIN || \Yii::$app->user->identity->user_role==User::ROLE_SUBADMIN){ ?>
-             <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                    'method' => 'post',
-                ],
-            ])
-            ?>  
-             <?php  } ?>
-        </div>
-    </div>
-    </div>
-    </div>
-    <div class="card">
-       <div class="card-body">
-
-    <div class="row">
-<?php 
-    $gridColumn = [
-        ['attribute' => 'id', 'visible' => false],
-        [
-            'attribute' => 'user.id',
-            'label' => Yii::t('app', 'User'),
-        ],
-        'register_number',
-        'marital_status',
-        'category',
-        'profile_image',
-        'gender',
-        'cast',
-        'name',
-        'cast_gotra',
-        'dob',
-        'tob',
-        'place_of_birth',
-        'phone_number',
-        'whats_app_number',
-        'height',
-        'house_type',
-        'address',
-        'complexion',
-        'qualification',
-        'other_qualification',
-        'physique',
-        'occupication',
-        'monthly_income',
-        'prefrence',
-        'no_children',
-        'handicapped',
-        'disability_description',
-        'fathers_name',
-        'fathers_occupation',
-        'fathers_age',
-        'fathers_monthly_income',
-        'mothers_name',
-        'mothers_occupation',
-        'mothers_age',
-        'mothers_monthly_income',
-        'upload_kundli',
-        'status',
-    ];
-    echo DetailView::widget([
-        'model' => $model,
-        'attributes' => $gridColumn
-    ]);
+<?php $user = User::find()->where(['id'=>$model->user_id])->one();
+$userDetail= BaseUserDetail::find()->where(['id'=>$model->id])->one();
 ?>
-</div>
-</div>
-    </div>
-    <div class="card">
-       <div class="card-body">
-    <div class="row">
-        <h4>User<?= ' '. Html::encode($this->title) ?></h4>
-    </div>
-    <?php 
-    $gridColumnUser = [
-        ['attribute' => 'id', 'visible' => false],
-        'username',
-        'auth_key',
-        'password_hash',
-        'password_reset_token',
-        'email',
-        'first_name',
-        'last_name',
-        'profile_image',
-        'user_role',
-        'status',
-        'created_at',
-        'updated_at',
-    ];
-    echo DetailView::widget([
-        'model' => $model->user,
-        'attributes' => $gridColumnUser    ]);
-    ?>
-    </div>
-    </div>
-    <div class="card">
-       <div class="card-body">
-    <div class="row">
-<?php
-if($providerUserSibling->totalCount){
-    $gridColumnUserSibling = [
-        ['class' => 'yii\grid\SerialColumn'],
-            ['attribute' => 'id', 'visible' => false],
-            [
-                'attribute' => 'user.id',
-                'label' => Yii::t('app', 'User')
-            ],
-                        [
-                'attribute' => 'siblingType.id',
-                'label' => Yii::t('app', 'Sibling Type')
-            ],
-            'name',
-            'age',
-            'education_qulification',
-            'married',
-            'occupation',
-    ];
-    echo Gridview::widget([
-        'dataProvider' => $providerUserSibling,
-        'pjax' => true,
-        'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-user-sibling']],
-        'panel' => [
-            'type' => GridView::TYPE_PRIMARY,
-            'heading' => '<span class="glyphicon glyphicon-book"></span> ' . Html::encode(Yii::t('app', 'User Sibling')),
-        ],
-        'export' => false,
-        'columns' => $gridColumnUserSibling
-    ]);
-}
+<section class="content p-3 card">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
 
-?>
-</div>
-</div>
-</div>
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <?php
 
-</div>
+                            use app\modules\admin\models\UserDetail;
 
+                            if (!empty($userDetail->profile_image)) { ?>
+                                <img class="profile-user-img img-fluid rounded-circle img-circle" src="<?= $userDetail->profile_image ?>" alt="User profile picture">
+                            <?php } else { ?>
+                                <img class="profile-user-img img-fluid rounded-circle img-circle" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="User profile picture">
+
+                            <?php } ?>
+                        </div>
+                        <?php if (!empty($userDetail->name)) { ?>
+                            <h3 class="profile-username text-center"><?= $userDetail->name ?></h3>
+                        <?php } else { ?>
+                            <h3 class="profile-username text-center"><?= $user->first_name ?><?= $user->last_name ?></h3>
+
+                        <?php } ?>
+                        <p class="text-muted text-center "> <?= $userDetail->occupication ?></p>
+                        <ul class="list-group list-group-unbordered mb-3 text-left">
+                            <li class="list-group-item">
+                                <b>Age</b> <a class="float-right badge badge-success"> <?php $age = UserDetail::getAge($userDetail->dob);
+                                                                                        echo $age;
+                                                                                        ?></a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Cast</b> <a class="float-right"><?= $userDetail->getCastBadges() ?></a>
+                            </li>
+                            <li class="list-group-item ">
+                                <b>House</b> <a class="float-right"><?= $userDetail->getHouseBadges() ?></a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="text-left bg-primary p-2 text-white rounded">Details:-</h5>
+                        <ul class="list-unstyled text-left list-group">
+
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <li class="list-group-item mb-2"><b>Registration Number:-</b> <?= $userDetail->register_number ?></li>
+                                    <li class="list-group-item mb-2"><b>Gender:-</b> <?= $userDetail->getGenderBadges() ?></li>
+                                    <li class="list-group-item mb-2"><b>Date Of Birth:-</b> <?= $userDetail->dob ?></li>
+                                    <li class="list-group-item mb-2"><b>Height:-</b> <?= $userDetail->height ?></li>
+                                    <li class="list-group-item mb-2"><b>Other Qualification:-</b> <?= $userDetail->other_qualification ?></li>
+                                    <li class="list-group-item mb-2"><b>Monthly Income:-</b> <?= $userDetail->monthly_income ?></li>
+                                    <li class="list-group-item mb-2"><b>Handicapped:-</b> <?php if ($userDetail->handicapped == 1) {
+                                                                                                echo 'Yes';
+                                                                                            } else {
+                                                                                                echo 'No';
+                                                                                            }  ?></li>
+
+                                </div>
+
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <li class="list-group-item mb-2"><b>Mrital Status:-</b> <?= $userDetail->getMatrialStatusBadges() ?></li>
+                                    <li class="list-group-item mb-2"><b>Cast:-</b> <?= $userDetail->getCastBadges() ?></li>
+                                    <li class="list-group-item mb-2"><b>Time Of Birth:-</b> <?= $userDetail->tob ?></li>
+                                    <li class="list-group-item mb-2"><b>Complexion:-</b> <?= $userDetail->getComplectionBadges() ?></li>
+                                    <li class="list-group-item mb-2"><b>Physique:-</b> <?= $userDetail->physique ?></li>
+                                    <li class="list-group-item mb-2"><b>Prefrence:-</b> <?= $userDetail->prefrence ?></li>
+                                    <li class="list-group-item mb-2"><b>Disablity Discription:-</b> <?= $userDetail->disability_description ?></li>
+
+                                </div>
+
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <li class="list-group-item mb-2"><b>Category:-</b> <?= $userDetail->getCategoryBadges() ?></li>
+                                    <li class="list-group-item mb-2"><b>Cast Gotra:-</b> <?= $userDetail->cast_gotra ?></li>
+                                    <li class="list-group-item mb-2"><b>Place Of Birth:-</b> <?= $userDetail->place_of_birth ?></li>
+                                    <li class="list-group-item mb-2"><b>Qualification:-</b> <?= $userDetail->qualification ?></li>
+                                    <li class="list-group-item mb-2"><b>Phone Number:-</b> <?= $userDetail->phone_number ?? 'NA' ?></li>
+                                    <li class="list-group-item mb-2"><b>Whats's App Number:-</b> <?= $userDetail->whats_app_number ?? 'NA' ?></li>
+
+                                </div>
+                            </div>
+                        </ul>
+
+                        <h5 class="text-left bg-primary p-2 text-white rounded">Family Details:-</h5>
+                        <ul class="list-unstyled text-left list-group">
+
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <li class="list-group-item mb-2"><b>Father's Name:-</b> <?= $userDetail->fathers_name ?></li>
+                                    <li class="list-group-item mb-2"><b>Father's Occupation:-</b> <?= $userDetail->fathers_occupation ?></li>
+                                    <li class="list-group-item mb-2"><b>Father's Age</b> <?= $userDetail->fathers_age ?></li>
+                                    <li class="list-group-item mb-2"><b>Father's Monthly Income:-</b> <?= $userDetail->fathers_monthly_income ?></li>
+
+
+                                </div>
+
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <li class="list-group-item mb-2"><b>Mother's Name:-</b> <?= $userDetail->mothers_name ?></li>
+                                    <li class="list-group-item mb-2"><b>Mother's Occupation:-</b> <?= $userDetail->mothers_occupation ?></li>
+                                    <li class="list-group-item mb-2"><b>Mother's Age</b> <?= $userDetail->mothers_age ?></li>
+                                    <li class="list-group-item mb-2"><b>Mother's Monthly Income:-</b> <?= $userDetail->mothers_monthly_income ?></li>
+
+                                </div>
+
+
+                            </div>
+                        </ul>
+
+
+                        <table class="table  table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Relation:</th>
+                                    <th>Name:</th>
+                                    <th>Age:</th>
+                                    <th>Education Qualification:</th>
+                                    <th>Married:</th>
+                                    <th>Occupation:</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($user->sibling)) {
+                                    foreach ($user->sibling as $sib) {
+                                ?>
+
+                                        <tr>
+
+                                            <td><?= $sib->siblingType->title ?> </td>
+                                            <td><?= $sib->name ?> </td>
+                                            <td><?= $sib->age ?> </td>
+                                            <td><?= $sib->education_qulification ?> </td>
+                                            <?php if ($sib->married == 0) { ?>
+                                                <td>No </td>
+
+                                            <?php } else { ?>
+                                                <td>Yes </td>
+
+                                            <?php } ?>
+                                            <td><?= $sib->occupation ?> </td>
+                                        </tr>
+                                <?php }
+                                } ?>
+
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>

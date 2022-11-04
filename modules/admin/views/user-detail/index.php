@@ -43,118 +43,9 @@ $this->registerJs($search);
         <div class="card-body">
             <?php
             $gridColumn = [
+                
                 ['class' => 'yii\grid\SerialColumn'],
-
-                ['attribute' => 'id', 'visible' => false],
-
-                [
-                    'attribute' => 'user_id',
-                    'label' => Yii::t('app', 'User'),
-                    'value' => function ($model) {
-                        return $model->user->id;
-                    },
-                    'filterType' => GridView::FILTER_SELECT2,
-                    'filter' => \yii\helpers\ArrayHelper::map(\app\models\User::find()->asArray()->all(), 'id', 'id'),
-                    'filterWidgetOptions' => [
-                        'pluginOptions' => ['allowClear' => true],
-                    ],
-                    'filterInputOptions' => ['placeholder' => 'User', 'id' => 'grid-user-detail-search-user_id']
-                ],
-
-                'register_number',
-
-                'marital_status',
-
-                'category',
-
-                [
-                    'attribute' => 'profile_image',
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        return Html::img(
-                            $model['profile_image'],
-                            [
-                                'width' => '100px',
-                                'height' => '100px'
-                            ]
-                        );
-                    },
-
-
-                ],
-
-
-                'gender',
-
-                'cast',
-
-                'name',
-
-                'cast_gotra',
-
-                'dob',
-
-                'tob',
-
-                'place_of_birth',
-
-                'phone_number',
-
-                'whats_app_number',
-
-                'height',
-
-                'house_type',
-
-                'address',
-
-                'complexion',
-
-                'qualification',
-
-                'other_qualification',
-
-                'physique',
-
-                'occupication',
-
-                'monthly_income',
-
-                'prefrence',
-
-                'no_children',
-
-                'handicapped',
-
-                'disability_description',
-
-                'fathers_name',
-
-                'fathers_occupation',
-
-                'fathers_age',
-
-                'fathers_monthly_income',
-
-                'mothers_name',
-
-                'mothers_occupation',
-
-                'mothers_age',
-
-                'mothers_monthly_income',
-
-                'upload_kundli',
-
-                [
-                    'attribute' => 'status',
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        return $model->getStateOptionsBadges();
-                    },
-
-
-                ],
+                
                 [
                     'class' => 'kartik\grid\ActionColumn',
                     'template' => '{view} {update} {delete}',
@@ -187,6 +78,150 @@ $this->registerJs($search);
 
 
                 ],
+                ['attribute' => 'id', 'visible' => false],
+
+                [
+                    'attribute' => 'user_id',
+                    'label' => Yii::t('app', 'User'),
+                    'value' => function ($model) {
+                        return $model->user->id;
+                    },
+                    'filterType' => GridView::FILTER_SELECT2,
+                    'filter' => \yii\helpers\ArrayHelper::map(\app\models\User::find()->asArray()->all(), 'id', 'id'),
+                    'filterWidgetOptions' => [
+                        'pluginOptions' => ['allowClear' => true],
+                    ],
+                    'filterInputOptions' => ['placeholder' => 'User', 'id' => 'grid-user-detail-search-user_id']
+                ],
+                'name',
+
+                'register_number',
+
+                // 'marital_status',
+                [
+                    'attribute' => 'profile_image',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return Html::img(
+                            $model['profile_image'],
+                            [
+                                'width' => '100px',
+                                'height' => '100px'
+                            ]
+                        );
+                    },
+
+
+                ],
+
+                [
+                    'attribute' => 'marital_status',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return '<div class="badge badge-info">'. $model->getMatrialStatusBadges().'</div>';
+                    },
+
+
+                ],
+
+                [
+                    'attribute' => 'category',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return '<div class="badge badge-success">'. $model->getCategoryBadges().'</div>';
+                    },
+
+
+                ],
+
+               
+
+                [
+                    'attribute' => 'gender',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return '<div class="badge badge-warning">'. $model->getGenderBadges().'</div>';
+                    },
+
+
+                ],
+
+                [
+                    'attribute' => 'cast',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return '<div class="badge badge-primary">'. $model->getCastBadges().'</div>';
+                    },
+
+
+                ],
+
+
+                'cast_gotra',
+                // 'dob',
+
+                // 'tob',
+
+                'place_of_birth',
+
+                'phone_number',
+
+                // 'whats_app_number',
+
+                // 'height',
+
+                // 'house_type',
+
+                'address',
+
+                // 'complexion',
+
+                // 'qualification',
+
+                // 'other_qualification',
+
+                // 'physique',
+
+                // 'occupication',
+
+                // 'monthly_income',
+
+                // 'prefrence',
+
+                // 'no_children',
+
+                // 'handicapped',
+
+                // 'disability_description',
+
+                'fathers_name',
+
+                // 'fathers_occupation',
+
+                // 'fathers_age',
+
+                // 'fathers_monthly_income',
+
+                'mothers_name',
+
+                // 'mothers_occupation',
+
+                // 'mothers_age',
+
+                'mothers_monthly_income',
+
+                // 'upload_kundli',
+
+                [
+                    'attribute' => 'status',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return $model->getStateOptionsBadges();
+                    },
+
+
+                ],
+               
             ];
             ?>
             <?= GridView::widget([

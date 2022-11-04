@@ -166,7 +166,7 @@ class SiteController extends Controller
 	{
 		if (!User::isAdmin()) {
 
-			return $this->redirect('/app/site/login');
+			return $this->redirect('/Phb_ranchi_matromonial/site/login');
 		}
 		if (User::isUser()) {
 		}
@@ -370,12 +370,22 @@ class SiteController extends Controller
 
 	public function actionSearch($cast = '', $age = '')
 	{
-		if (!empty($cast)) {
-			$search = UserDetail::find()->where(['cast' => $cast])->andWhere(['status' => UserDetail::STATUS_ACTIVE])->all();
-		} else if ($age) {
-			$search = [];
+		$userDet = UserDetail::find()->where(['user_id' => \Yii::$app->user->identity->id])->one();
 
-			$userDetail = UserDetail::find()->where(['status' => UserDetail::STATUS_ACTIVE])->all();
+		if (!empty($cast)) {
+			if ($userDet->gender == UserDetail::FEMALE) {
+				$search = UserDetail::find()->where(['cast' => $cast])->andWhere(['gender' => UserDetail::MALE])->andWhere(['status' => UserDetail::STATUS_ACTIVE])->all();
+			} else {
+				$search = UserDetail::find()->where(['cast' => $cast])->andWhere(['gender' => UserDetail::FEMALE])->andWhere(['status' => UserDetail::STATUS_ACTIVE])->all();
+			}
+		} else if ($age) {
+
+			$search = [];
+			if ($userDet->gender == UserDetail::FEMALE) {
+				$userDetail = UserDetail::find()->where(['status' => UserDetail::STATUS_ACTIVE])->andWhere(['gender' => UserDetail::MALE])->all();
+			} else {
+				$userDetail = UserDetail::find()->where(['status' => UserDetail::STATUS_ACTIVE])->andWhere(['gender' => UserDetail::FEMALE])->all();
+			}
 			foreach ($userDetail as $ud) {
 				$ageUser = UserDetail::getAge($ud->dob);
 				if ($age == 1) {

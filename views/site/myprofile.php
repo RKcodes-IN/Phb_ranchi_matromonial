@@ -61,7 +61,11 @@
                                     <li class="list-group-item mb-2"><b>Whats App Number:-</b> <?= $userDetail->whats_app_number ?></li>
                                     <li class="list-group-item mb-2"><b>Other Qualification:-</b> <?= $userDetail->other_qualification ?></li>
                                     <li class="list-group-item mb-2"><b>Monthly Income:-</b> <?= $userDetail->monthly_income ?></li>
-                                    <li class="list-group-item mb-2"><b>Handicapped:-</b> <?php if($userDetail->handicapped == 1){echo "Yes";}else{echo "No";}  ?></li>
+                                    <li class="list-group-item mb-2"><b>Handicapped:-</b> <?php if ($userDetail->handicapped == 1) {
+                                                                                                echo "Yes";
+                                                                                            } else {
+                                                                                                echo "No";
+                                                                                            }  ?></li>
 
                                 </div>
 
@@ -138,7 +142,13 @@
                                             <td><?= $sib->name ?> </td>
                                             <td><?= $sib->age ?> </td>
                                             <td><?= $sib->education_qulification ?> </td>
-                                            <td><?= $sib->married ?> </td>
+                                            <?php if ($sib->married == 0) { ?>
+                                                <td>No </td>
+
+                                            <?php } else { ?>
+                                                <td>Yes </td>
+
+                                            <?php } ?>
                                             <td><?= $sib->occupation ?? '' ?> </td>
                                         </tr>
                                 <?php }
