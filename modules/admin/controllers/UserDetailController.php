@@ -31,7 +31,7 @@ class UserDetailController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'update-status', 'add-user-sibling'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'update-status', 'add-user-sibling', 'generate-pdf'],
                         'matchCallback' => function () {
                             return User::isAdmin() || User::isSubAdmin();
                         }
@@ -39,7 +39,7 @@ class UserDetailController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'update', 'pdf', 'update-status'],
+                        'actions' => ['index', 'view', 'update', 'pdf', 'update-status', 'generate-pdf'],
                         'matchCallback' => function () {
                             return User::isManager();
                         }
@@ -211,7 +211,7 @@ class UserDetailController extends Controller
                     if ($model->status == UserDetail::STATUS_INACTIVE) {
                         $user->status = User::STATUS_BLOCKED;
                         $user->save(false);
-                    }else if($model->status == UserDetail::STATUS_ACTIVE){
+                    } else if ($model->status == UserDetail::STATUS_ACTIVE) {
                         $user->status = User::STATUS_ACTIVE;
                         $user->save(false);
                     }
@@ -338,5 +338,41 @@ class UserDetailController extends Controller
         } else {
             throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
         }
+    }
+
+    public function actionGeneratePdf()
+    {
+        $content = $this->renderPartial('profile-pdf');
+    
+        // setup kartik\mpdf\Pdf component
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE, 
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4, 
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER, 
+            // your html content input
+            'content' => $content,  
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting 
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}', 
+             // set mPDF properties on the fly
+            'options' => ['title' => 'Krajee Report Title'],
+             // call mPDF methods on the fly
+            'methods' => [ 
+                'SetHeader'=>['Krajee Report Header'], 
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+        
+        // return the pdf output as per the destination setting
+        return $pdf->render(); 
+    }
+        
     }
 }
